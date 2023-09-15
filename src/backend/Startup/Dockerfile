@@ -5,6 +5,8 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Startup/Startup.csproj", "Startup/"]
+COPY ["Accounts/Accounts.csproj", "Accounts/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
 RUN dotnet restore "Startup/Startup.csproj"
 COPY . .
 WORKDIR "/src/Startup"
