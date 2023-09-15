@@ -49,7 +49,7 @@ public static class ModuleRegistration
 
             if (!result.Succeeded)
             {
-                Results.BadRequest(result.Errors);
+                return Results.BadRequest(result.Errors);
             }
 
             return Results.Ok(new { UserId = user.Id });
