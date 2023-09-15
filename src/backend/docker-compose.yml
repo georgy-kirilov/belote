@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  belote-startup:
+    image: belote-startup
+    build:
+      context: .
+      dockerfile: Startup/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=belote-db;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
+    ports:
+      - "5200:80"
+    depends_on:
+      - belote-db
+    networks:
+      - belote-network
+
+  belote-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: belote
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - belote-data:/var/lib/postgresql/data
+    ports:
+      - "5300:5432"
+    networks:
+      - belote-network
+
+volumes:
+  belote-data:
+
+networks:
+  belote-network:
+    driver: bridge
