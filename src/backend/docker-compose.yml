@@ -19,7 +19,7 @@ services:
   belote-db:
     image: postgres:15
     environment:
-      POSTGRES_DB: belote
+      POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
