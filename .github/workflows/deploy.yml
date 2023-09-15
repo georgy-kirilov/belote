@@ -22,7 +22,7 @@ jobs:
         source: "."
         target: ${{ secrets.DEPLOY_PATH }}
 
-    - name: Restart services on Linode using SSH
+    - name: Build and Restart services on Linode using SSH
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.LINODE_HOST }}
@@ -30,11 +30,10 @@ jobs:
         key: ${{ secrets.LINODE_SSH_KEY }}
         script: |
           cd ${{ secrets.DEPLOY_PATH }}/deploy
-          docker-compose -f docker-compose.prod.yml down
           docker-compose -f docker-compose.prod.yml build
+          docker-compose -f docker-compose.prod.yml down
           docker-compose -f docker-compose.prod.yml up -d
       env:
         DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_NAME: ${{ secrets.DB_NAME }}
-
