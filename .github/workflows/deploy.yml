@@ -33,7 +33,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
         script: |
-          cd ${{ secrets.DEPLOY_PATH }}
+          cd ${{ secrets.DEPLOY_PATH }}/deploy
           docker-compose -f docker-compose.prod.yml down
           docker-compose -f docker-compose.prod.yml build
           docker-compose -f docker-compose.prod.yml up -d
