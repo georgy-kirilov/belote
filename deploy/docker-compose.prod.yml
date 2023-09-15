@@ -4,8 +4,8 @@ services:
   belote-startup:
     image: belote-startup
     build:
-      context: ../
-      dockerfile: src/backend/Startup/Dockerfile
+      context: ../src/backend/Startup/
+      dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=belote-db;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
