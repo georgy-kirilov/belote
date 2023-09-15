@@ -1,0 +1,2 @@
+# belote
+Multiplayer belote game
