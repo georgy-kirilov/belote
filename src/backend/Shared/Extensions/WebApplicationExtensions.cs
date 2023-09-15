@@ -10,11 +10,11 @@ public static class WebApplicationExtensions
     public static async Task ApplyMigrations<TContext>(this WebApplication app)
         where TContext : DbContext
     {
-        if (app.Environment.IsDevelopment())
-        {
+        //if (app.Environment.IsDevelopment())
+        //{
             await using var scope = app.Services.CreateAsyncScope();
             await using var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
             await dbContext.Database.MigrateAsync();
-        }
+        //}
     }
 }
