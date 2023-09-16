@@ -39,9 +39,9 @@ jobs:
           key: ${{ env.LINODE_SSH_KEY }}
           script: |
             cd ${{ env.DEPLOY_PATH }}/deploy
-            export DB_NAME="${{ env.DB_NAME }}"
-            export DB_USER="${{ env.DB_USER }}"
-            export DB_PASSWORD="${{ env.DB_PASSWORD }}"
+            export DB_NAME='"${{ env.DB_NAME }}"'
+            export DB_USER='"${{ env.DB_USER }}"'
+            export DB_PASSWORD='"${{ env.DB_PASSWORD }}"'
             docker-compose -f docker-compose.prod.yml build
             docker-compose -f docker-compose.prod.yml down
             docker-compose -f docker-compose.prod.yml up -d
