@@ -45,3 +45,29 @@ jobs:
             docker-compose -f docker-compose.prod.yml build
             docker-compose -f docker-compose.prod.yml down
             docker-compose -f docker-compose.prod.yml up -d
+
+      - name: Conditionally Renew SSL Certificate
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.LINODE_HOST }}
+          username: ${{ env.LINODE_USERNAME }}
+          key: ${{ env.LINODE_SSH_KEY }}
+          script: |
+            cd ${{ env.DEPLOY_PATH }}/deploy
+            # Use docker exec to check and manipulate files inside the container's volume
+            file_content=$(docker exec deploy_belote-backend_1 cat /app/config/last_renewal.txt) # Assuming default prefix is "deploy"
+            
+            if [[ -n "$file_content" ]]; then
+              last_renewal_date=$file_content
+              current_date=$(date +"%Y%m%d")
+              diff=$(( current_date - last_renewal_date ))
+              
+              # Only renew if it's been more than 60 days
+              if (( diff > 60 )); then
+                docker-compose -f docker-compose.prod.yml run --rm certbot renew
+                docker exec deploy_belote-backend_1 bash -c "echo $(date +"%Y%m%d") > /app/config/last_renewal.txt"
+              fi
+            else
+              docker-compose -f docker-compose.prod.yml run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d beloteplay.site
+              docker exec deploy_belote-backend_1 bash -c "echo $(date +"%Y%m%d") > /app/config/last_renewal.txt"
+            fi
