@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   belote-backend:
-    image: belote-backend:latest
+    image: belote-backend
     build:
       context: ../src/backend
       dockerfile: Startup/Dockerfile
