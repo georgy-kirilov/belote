@@ -9,8 +9,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=belote-database;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
-    ports:
-      - "5200:80"
+    #ports:
+      #- "5200:80"
     depends_on:
       - belote-database
     networks:
