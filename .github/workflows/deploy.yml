@@ -13,7 +13,7 @@ jobs:
       LINODE_HOST: ${{ secrets.LINODE_HOST }}
       LINODE_USERNAME: ${{ secrets.LINODE_USERNAME }}
       LINODE_SSH_KEY: ${{ secrets.LINODE_SSH_KEY }}
-      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      DEPLOY_PATH: ${{ env.DEPLOYMENT_PATH }}
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
