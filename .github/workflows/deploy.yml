@@ -42,9 +42,7 @@ jobs:
             export DB_NAME="${{ env.DB_NAME }}"
             export DB_USER="${{ env.DB_USER }}"
             export DB_PASSWORD="${{ env.DB_PASSWORD }}"
-            docker-compose -f docker-compose.prod.yml build
-            docker-compose -f docker-compose.prod.yml down
-            docker-compose -f docker-compose.prod.yml up -d
+            docker-compose -f docker-compose.prod.yml run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d beloteplay.site --non-interactive --register-unsafely-without-email
 
       - name: Conditionally Renew SSL Certificate
         uses: appleboy/ssh-action@master
@@ -68,6 +66,6 @@ jobs:
                 docker exec deploy_belote-backend_1 bash -c "echo $(date +"%Y%m%d") > /app/config/last_renewal.txt"
               fi
             else
-              docker-compose -f docker-compose.prod.yml run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d beloteplay.site
+              docker-compose -f docker-compose.prod.yml run --rm certbot renew --non-interactive
               docker exec deploy_belote-backend_1 bash -c "echo $(date +"%Y%m%d") > /app/config/last_renewal.txt"
             fi
